@@ -1,10 +1,6 @@
 from pyais import decode
 from pyais.encode import encode_dict
 
-# ============================================================
-# Demo: Encode a realistic North Sea vessel, then decode it
-# ============================================================
-
 # A fictional Dutch cargo vessel approaching the Port of Rotterdam
 vessel_data = {
     'type': 1,
@@ -30,14 +26,14 @@ print(f"  SOG:     {vessel_data['speed']} knots")
 print(f"  COG:     {vessel_data['course']} degrees")
 print(f"  Heading: {vessel_data['heading']} degrees")
 print(f"  ROT:     {vessel_data['turn']}")
-print(f"  Status:  {vessel_data['status']} (under way using engine)")
+print(f"  Status:  {vessel_data['status']}")
 
 # Encode
 encoded = encode_dict(vessel_data)
 print(f"\nENCODED NMEA SENTENCE:")
 print(f"  {encoded[0]}")
 
-# Decode it back
+# Decode it back (Round-trip)
 decoded = decode(*encoded).asdict()
 print(f"\nDECODED BACK:")
 print(f"  MMSI:    {decoded['mmsi']}")
@@ -47,7 +43,7 @@ print(f"  SOG:     {decoded['speed']} knots")
 print(f"  COG:     {decoded['course']} degrees")
 print(f"  Heading: {decoded['heading']} degrees")
 print(f"  ROT:     {decoded['turn']}")
-print(f"  Status:  {decoded['status']} (under way using engine)")
+print(f"  Status:  {decoded['status']}")
 
 # Verify
 print(f"\nROUND-TRIP VERIFICATION:")

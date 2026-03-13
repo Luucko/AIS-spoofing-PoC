@@ -10,22 +10,22 @@ class TestBasicEncode:
     def setup_method(self):
         """Define test input used across basic encode tests."""
         self.input_data = {
-            'type': 1,
-            'mmsi': '259366000',
-            'status': 0,
-            'turn': 0.0,
-            'speed': 12.5,
-            'accuracy': 0,
-            'lon': 7.510365,
-            'lat': 63.046247,
-            'course': 48.1,
-            'heading': 247,
-            'second': 30,
-            'maneuver': 0,
-            'raim': 0,
+            'type': 1,              # AIS message type 1 = position report
+            'mmsi': '259366000',    # MMSI number
+            'status': 0,            # Under way using engine
+            'turn': 0.0,            # Not turning
+            'speed': 12.5,          # 12.5 knots over ground
+            'accuracy': 0,          # Low accuracy GPS
+            'lon': 7.510365,        # Longitude near Bergen, Norway
+            'lat': 63.046247,       # Latitude near Bergen, Norway
+            'course': 48.1,         # 48.1 degrees true course over ground
+            'heading': 247,         # 247 degrees true heading
+            'second': 30,           # AIS position report at 30 seconds past the minute
+            'maneuver': 0,          # Not engaged in maneuver
+            'raim': 0,              # RAIM not in use
         }
         self.encoded = encode_dict(self.input_data)
-        self.decoded = decode(*self.encoded).asdict()
+        self.decoded = decode(*self.encoded).asdict()   # Decoder validated in test_decoder.py
 
     def test_encoded_is_not_empty(self):
         assert len(self.encoded) > 0
@@ -49,8 +49,7 @@ class TestBasicEncode:
         assert self.decoded['status'] == self.input_data['status']
 
     def test_lat_within_tolerance(self):
-        # AIS resolution is 1/10000 minute ≈ 0.000167 degrees
-        assert abs(self.decoded['lat'] - self.input_data['lat']) < 0.001
+        assert abs(self.decoded['lat'] - self.input_data['lat']) < 0.001     # AIS resolution is 1/10000 minute ≈ 0.000167 degrees
 
     def test_lon_within_tolerance(self):
         assert abs(self.decoded['lon'] - self.input_data['lon']) < 0.001
@@ -62,7 +61,7 @@ class TestRoundTrip:
     def setup_method(self):
         """Load a sample of real captured AIS data."""
         self.df = pd.read_csv("data/processed/ais_type123_clean.csv")
-        self.sample = self.df.head(20)
+        self.sample = self.df.head(20)      # Test on first 20 rows
 
     def _round_trip(self, row):
         """Encode a row from the CSV, decode the result, return both."""
