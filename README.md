@@ -12,9 +12,10 @@ Tests whether two Generative AI techniques (a GAN and an LLM) can produce realis
 ais-spoofing-poc/
 ├── data/
 │   ├── raw/                    # Raw NMEA capture files (not in git)
+│   |   └── ais_raw_20260305_2124.txt       # Raw capture
 │   └── processed/              # Decoded and cleaned CSVs (not in git)
 │       ├── ais_decoded_20260305_2124.csv   # Full decoded capture
-│       └── ais_type123_clean.csv           # Cleaned Type 1/2/3 records (648,253 rows)
+│       └── ais_type123_clean.csv           # Cleaned Type 1/2/3 records
 ├── notebooks/
 │   ├── 01_capture_ais.py       # Connects to Norwegian AIS feed, captures and decodes live data
 │   ├── 02_data_exploration.py  # Filters and cleans decoded data per ITU-R M.1371
