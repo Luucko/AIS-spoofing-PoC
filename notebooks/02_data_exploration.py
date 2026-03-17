@@ -8,13 +8,9 @@ print(f"Total records: {len(df)}")
 print(f"\nMessage types captured:")
 print(df["msg_type"].value_counts())
 
-# Filter for Type 1, 2, 3 only (Class A position reports - our GAN training data)
-pos_reports = df[df["msg_type"].isin([1, 2, 3])].copy()
-print(f"\nType 1/2/3 position reports (before cleaning): {len(pos_reports)}")
-
-# create function to print stats for a given dataframe instead of repeating code twice for before/after cleaning stats
-def print_stats(df, title):
-    print(f"\n--- {title} Statistics ---")
+# Print ranges of key fields
+def print_ranges(df, title):
+    print(f"\n--- Ranges {title} ---")
     print(f"Unique vessels (MMSI): {df['mmsi'].nunique()}")
     print(f"Latitude range: {df['lat'].min():.4f} to {df['lat'].max():.4f}")
     print(f"Longitude range: {df['lon'].min():.4f} to {df['lon'].max():.4f}")
@@ -24,8 +20,12 @@ def print_stats(df, title):
     print(f"ROT range: {df['rot'].min()} to {df['rot'].max()}")
     print(f"NAV Status range: {df['nav_status'].min()} to {df['nav_status'].max()}")
 
-# Stats before cleaning
-print_stats(pos_reports, "BEFORE Cleaning")
+# Ranges before cleaning
+print_ranges(df, "BEFORE Cleaning")
+
+# Filter for Type 1, 2, 3 only (Class A position reports - our GAN training data)
+pos_reports = df[df["msg_type"].isin([1, 2, 3])].copy()
+print(f"\nType 1/2/3 position reports (before cleaning): {len(pos_reports)}")
 
 # Remove invalid/unavailable values per ITU-R M.1371
 pos_reports = pos_reports[
@@ -42,8 +42,8 @@ pos_reports = pos_reports[
 
 print(f"Type 1/2/3 position reports (after cleaning): {len(pos_reports)}")
 
-# Stats after cleaning
-print_stats(pos_reports, "AFTER Cleaning")
+# Ranges after cleaning
+print_ranges(pos_reports, "AFTER Cleaning")
 
 
 # Save the cleaned dataset
