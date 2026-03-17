@@ -19,7 +19,8 @@ ais-spoofing-poc/
 ├── notebooks/
 │   ├── 01_capture_ais.py       # Connects to Norwegian AIS feed, captures and decodes live data
 │   ├── 02_data_exploration.py  # Filters and cleans decoded data per ITU-R M.1371
-│   └── 03_encoder_demo.py      # Demonstrates pyais encode_dict with a fictional North Sea vessel
+│   |── 03_encoder_demo.py      # Demonstrates pyais encode_dict with a fictional North Sea vessel
+│   └── 04_train_gan.py         # Train GAN through PyTorch epochs
 ├── tests/
 │   ├── test_decoder.py         # Validates pyais decoder against known values and third-party decoder
 │   └── test_encoder.py         # Validates pyais encoder via round-trip testing on real captured data
@@ -43,7 +44,7 @@ pip install pyais pandas pytest torch
 - **pyais**: AIS decoding and encoding (NMEA 0183 / ITU-R M.1371)
 - **pandas**: Data handling and CSV processing
 - **pytest**: Test framework
-- **torch**: PyTorch for GAN training (upcoming)
+- **torch**: PyTorch for GAN training
 
 ## How to run
 
@@ -53,6 +54,7 @@ cd notebooks
 python 01_capture_ais.py
 python 02_data_exploration.py
 python 03_encoder_demo.py
+python 04_train_gan.py
 ```
 
 Tests run from the project root:
@@ -67,7 +69,7 @@ pytest tests/ -v
 | 1 | Capture live AIS data | Done |
 | 2 | Clean and filter dataset | Done |
 | 3 | Validate NMEA encoder/decoder | Done (28/28 tests passing) |
-| 4 | Train GAN | Next |
+| 4 | Train GAN | In Progress |
 | 5 | LLM comparison | Pending |
 | 6 | Encode and evaluate | Pending |
 | 7 | Attack scenario demonstrations | Pending |
