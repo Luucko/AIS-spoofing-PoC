@@ -22,7 +22,7 @@ print(data.describe().round(4))     # With pandas 2.0+, you can print data stati
 data_min = data.min()       # Store min for each field (needed later to convert back)
 data_max = data.max()       # Store max for each field
 
-data_normalized = (data - data_min) / (data_max - data_min)     # Min-max normalization: (value - min) / (max - min)
+data_normalized = (data - data_min) / (data_max - data_min)     # Manual min-max normalization for transparency (instead of using sklearn's MinMaxScaler) 
 
 print(f"\nNormalized data statistics:")
 print(data_normalized.describe().round(4))
