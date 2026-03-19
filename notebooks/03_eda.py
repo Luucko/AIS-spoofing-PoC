@@ -111,3 +111,33 @@ plt.tight_layout()
 plt.savefig("../data/processed/eda_map_zoomed.png", dpi=150)
 print("Saved map: eda_map_zoomed.png")
 plt.close()
+
+
+# 3. Summary statistics table
+
+features = ['lat', 'lon', 'sog', 'cog', 'heading', 'rot', 'nav_status']
+df_unfiltered_pos = df_unfiltered[df_unfiltered["msg_type"].isin([1, 2, 3])]
+
+with open("../data/processed/eda_summary.md", "w") as f:
+    def write(line=""):
+        f.write(line + "\n")
+
+    write(f"# EDA Summary\n")
+
+    write(f"## Unfiltered Type 1/2/3 Data ({len(df_unfiltered_pos)} records, {df_unfiltered_pos['mmsi'].nunique()} vessels)\n")
+    write(df_unfiltered_pos[features].describe().round(4).to_markdown())
+
+    write(f"\n## Cleaned Type 1/2/3 Data ({len(df)} records, {df['mmsi'].nunique()} vessels)\n")
+    write(df[features].describe().round(4).to_markdown())
+
+    write(f"\n## Key Observations\n")
+    write(f"| Metric | Value |")
+    write(f"|--------|-------|")
+    write(f"| Records removed by cleaning | {len(df_unfiltered_pos) - len(df)} ({(len(df_unfiltered_pos) - len(df)) / len(df_unfiltered_pos) * 100:.1f}%) |")
+    write(f"| Vessels removed by cleaning | {df_unfiltered_pos['mmsi'].nunique() - df['mmsi'].nunique()} |")
+    write(f"| Stationary vessels (SOG=0) | {(df['sog'] == 0).sum()} ({(df['sog'] == 0).sum() / len(df) * 100:.1f}%) |")
+    write(f"| Nav status 0 (under way) | {(df['nav_status'] == 0).sum()} ({(df['nav_status'] == 0).sum() / len(df) * 100:.1f}%) |")
+    write(f"| Nav status 5 (moored) | {(df['nav_status'] == 5).sum()} ({(df['nav_status'] == 5).sum() / len(df) * 100:.1f}%) |")
+    write(f"| Nav status 15 (undefined) | {(df['nav_status'] == 15).sum()} ({(df['nav_status'] == 15).sum() / len(df) * 100:.1f}%) |")
+
+print("Saved summary: eda_summary.md")

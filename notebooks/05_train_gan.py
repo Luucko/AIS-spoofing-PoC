@@ -13,7 +13,7 @@ features = ['lat', 'lon', 'sog', 'cog', 'heading', 'rot', 'nav_status']
 data = df[features].copy()
 
 print(f"Selected {len(features)} features: {features}")
-print(f"\nRaw data statistics:")
+print(f"\nData statistics:")
 print(data.describe().round(4))     # With pandas 2.0+, you can print data statistics using .describe()
 
 
