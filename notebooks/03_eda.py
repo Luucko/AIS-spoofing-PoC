@@ -1,12 +1,15 @@
 import pandas as pd
+import geopandas as gpd
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')  # Non-interactive backend for saving plots
 
+# Load filtered and unfiltered datasets
 df = pd.read_csv("../data/processed/ais_type123_clean.csv")
 print(f"Loaded {len(df)} clean records")
 df_unfiltered = pd.read_csv("../data/processed/ais_decoded_20260305_2124.csv")
 print(f"Loaded {len(df_unfiltered)} unfiltered records")
+
 
 # 1. Histograms of all 7 features
 
@@ -33,3 +36,78 @@ plot_histograms(df_unfiltered, "Feature Distributions - Unfiltered AIS Data","..
 # Plot histograms for cleaned data — blue signals processed/reliable
 plot_histograms(df, "Feature Distributions - Cleaned Type 1/2/3 Position Reports","../data/processed/eda_histograms.png", color='#2E86C1')
 
+
+# 2. Geographical map of recorded coordinates
+
+# World view: before and after cleaning side by side
+world = gpd.read_file("https://naciscdn.org/naturalearth/110m/cultural/ne_110m_admin_0_countries.zip")
+fig, axes = plt.subplots(1, 2, figsize=(22, 8))
+
+def plot_map(df, df_label, filename, color, extent=None):
+    fig, ax = plt.subplots(figsize=(14, 10))
+    world.plot(ax=ax, color='#E8E8E8', edgecolor='#B0B0B0', linewidth=0.5)
+    ax.scatter(df['lon'], df['lat'], s=0.05, alpha=0.3, color=color)
+    ax.set_title(df_label, fontsize=14, fontweight='bold')
+    ax.set_xlabel('Longitude')
+    ax.set_ylabel('Latitude')
+    
+    if extent:
+        ax.set_xlim(extent[0], extent[1])
+        ax.set_ylim(extent[2], extent[3])
+    
+    ax.grid(True, alpha=0.2)
+    plt.tight_layout()
+    plt.savefig(filename, dpi=150)
+    print(f"Saved map: {filename}")
+    plt.close()
+
+# Unfiltered
+world.plot(ax=axes[0], color='#E8E8E8', edgecolor='#B0B0B0', linewidth=0.5)
+axes[0].scatter(df_unfiltered['lon'], df_unfiltered['lat'], s=0.05, alpha=0.3, color='#C0392B')
+axes[0].set_title('Positions — Unfiltered Data', fontsize=13, fontweight='bold')
+axes[0].set_xlabel('Longitude')
+axes[0].set_ylabel('Latitude')
+axes[0].grid(True, alpha=0.2)
+
+# Cleaned
+world.plot(ax=axes[1], color='#E8E8E8', edgecolor='#B0B0B0', linewidth=0.5)
+axes[1].scatter(df['lon'], df['lat'], s=0.05, alpha=0.3, color='#2E86C1')
+axes[1].set_title('Positions — Cleaned Type 1/2/3 Data', fontsize=13, fontweight='bold')
+axes[1].set_xlabel('Longitude')
+axes[1].set_ylabel('Latitude')
+axes[1].grid(True, alpha=0.2)
+
+plt.suptitle('Geographic Distribution of AIS Records', fontsize=15, fontweight='bold')
+plt.tight_layout()
+plt.savefig("../data/processed/eda_map.png", dpi=150)
+print("Saved map: eda_map.png")
+plt.close()
+
+# Zoomed-in Norway: before and after cleaning side by side
+fig, axes = plt.subplots(1, 2, figsize=(22, 8))
+
+# Unfiltered
+world.plot(ax=axes[0], color='#E8E8E8', edgecolor='#B0B0B0', linewidth=0.5)
+axes[0].scatter(df_unfiltered['lon'], df_unfiltered['lat'], s=0.1, alpha=0.3, color='#C0392B')
+axes[0].set_title('Positions — Unfiltered Data', fontsize=13, fontweight='bold')
+axes[0].set_xlabel('Longitude')
+axes[0].set_ylabel('Latitude')
+axes[0].set_xlim(-5, 35)
+axes[0].set_ylim(54, 75)
+axes[0].grid(True, alpha=0.2)
+
+# Cleaned — zoomed
+world.plot(ax=axes[1], color='#E8E8E8', edgecolor='#B0B0B0', linewidth=0.5)
+axes[1].scatter(df['lon'], df['lat'], s=0.1, alpha=0.3, color='#2E86C1')
+axes[1].set_title('Positions — Cleaned Type 1/2/3 Data', fontsize=13, fontweight='bold')
+axes[1].set_xlabel('Longitude')
+axes[1].set_ylabel('Latitude')
+axes[1].set_xlim(-5, 35)
+axes[1].set_ylim(54, 75)
+axes[1].grid(True, alpha=0.2)
+
+plt.suptitle('Geographic Distribution of AIS Records — Norwegian Coast', fontsize=15, fontweight='bold')
+plt.tight_layout()
+plt.savefig("../data/processed/eda_map_zoomed.png", dpi=150)
+print("Saved map: eda_map_zoomed.png")
+plt.close()
