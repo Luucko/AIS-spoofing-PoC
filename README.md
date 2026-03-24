@@ -23,7 +23,7 @@ ais-spoofing-poc/
 │       └── eda_summary.md                           # Summary statistics table (markdown)
 ├── notebooks/
 │   ├── 01_capture_ais.py                            # Connect to Norwegian AIS feed, capture and decode
-│   ├── 02_data_exploration.py                       # Filter and clean decoded data per ITU-R M.1371
+│   ├── 02_data_cleaning.py                          # Filter and clean decoded data per ITU-R M.1371
 │   ├── 03_eda.py                                    # Exploratory Data Analysis: histograms, maps, stats
 │   ├── 04_encoder_demo.py                           # Demonstrate pyais encode_dict (fictional vessel)
 │   └── 05_train_gan.py                              # GAN training pipeline (in progress)
@@ -65,7 +65,7 @@ Notebooks run from inside the `notebooks/` folder:
 ```
 cd notebooks
 python 01_capture_ais.py
-python 02_data_exploration.py
+python 02_data_cleaning.py
 python 03_eda.py
 python 04_encoder_demo.py
 python 05_train_gan.py

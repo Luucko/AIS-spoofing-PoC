@@ -45,7 +45,6 @@ print(f"Type 1/2/3 position reports (after cleaning): {len(pos_reports)}")
 # Ranges after cleaning
 print_ranges(pos_reports, "AFTER Cleaning")
 
-
 # Save the cleaned dataset
 pos_reports.to_csv("../data/processed/ais_type123_clean.csv", index=False)
 print(f"\nSaved {len(pos_reports)} clean position reports to data/processed/ais_type123_clean.csv")

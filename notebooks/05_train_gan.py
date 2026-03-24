@@ -3,7 +3,7 @@ import torch
 import numpy as np
 
 
-# Step 1: Load and prepare data.
+# 1: Load and prepare data.
 
 df = pd.read_csv("../data/processed/ais_type123_clean.csv")
 print(f"Loaded {len(df)} records")
@@ -17,12 +17,15 @@ print(f"\nData statistics:")
 print(data.describe().round(4))     # With pandas 2.0+, you can print data statistics using .describe()
 
 
-# Step 2: Normalize to [0, 1]
+# 2: Normalize to [0, 1]
 
 data_min = data.min()       # Store min for each field (needed later to convert back)
 data_max = data.max()       # Store max for each field
 
 data_normalized = (data - data_min) / (data_max - data_min)     # Manual min-max normalization for transparency (instead of using sklearn's MinMaxScaler) 
+# from sklearn.preprocessing import MinMaxScaler
+# scaler = MinMaxScaler()
+# data_normalized = pd.DataFrame(scaler.fit_transform(data), columns=data.columns)
 
 print(f"\nNormalized data statistics:")
 print(data_normalized.describe().round(4))
@@ -43,12 +46,12 @@ print(f"After normalize+denormalize:   {sample_original.round(4)}")
 print(f"Match: {np.allclose(df[features].iloc[0].values, sample_original, atol=0.001)}")
 
 
-# Step 3: Define the generator.
+# 3: Define the generator.
 
-# Step 4: Define the discriminator.
+# 4: Define the discriminator.
 
-# Step 5: Training loop.
+# 5: Training loop.
 
-# Step 6: Generate samples (Print output to data/processed/gan_generated_ais.csv).
+# 6: Generate samples (Print output to data/processed/gan_generated_ais.csv).
 
-# Step 7: Quick sanity check.
+# 7: Quick sanity check.
