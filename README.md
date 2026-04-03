@@ -26,9 +26,9 @@ ais-spoofing-poc/
 ├── notebooks/
 │   ├── 01_capture_ais.py                            # Connect to Norwegian AIS feed, capture and decode
 │   ├── 02_data_cleaning.py                          # Filter and clean decoded data per ITU-R M.1371
-│   ├── 03_eda.py                                    # Exploratory Data Analysis: histograms, maps, stats
+│   ├── 03_eda.ipynb                                 # Exploratory Data Analysis: histograms, maps, stats
 │   ├── 04_encoder_demo.py                           # Demonstrate pyais encode_dict (round-trip validation)
-│   └── 05_spoofing_scenarios.py                     # Manual spoofing scenarios for Dutch North Sea waters
+│   └── 05_spoofing_scenarios.ipynb                  # Manual spoofing scenarios for Dutch North Sea waters
 ├── tests/
 │   ├── test_decoder.py                              # Validate pyais decoder (incl. third-party verification)
 │   └── test_encoder.py                              # Validate pyais encoder (round-trip on real data)
