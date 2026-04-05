@@ -45,6 +45,23 @@ print(f"Type 1/2/3 position reports (after cleaning): {len(pos_reports)}")
 # Ranges after cleaning
 print_ranges(pos_reports, "AFTER Cleaning")
 
+# After sentinel value removal, check geographic distribution
+north_sea_ish = pos_reports[
+    (pos_reports["lat"] >= 50) & (pos_reports["lat"] <= 85) &
+    (pos_reports["lon"] >= -15) & (pos_reports["lon"] <= 35)
+]
+print(f"\nRecords within extended Norwegian/North Sea region: {len(north_sea_ish)} "
+      f"({len(north_sea_ish)/len(pos_reports)*100:.1f}%)")
+print(f"Records outside this region: {len(pos_reports) - len(north_sea_ish)}")
+
+outside = pos_reports[
+    ~(
+        (pos_reports["lat"] >= 50) & (pos_reports["lat"] <= 85) &
+        (pos_reports["lon"] >= -15) & (pos_reports["lon"] <= 35)
+    )
+]
+print(outside[["mmsi", "lat", "lon", "sog", "cog", "heading", "nav_status"]].to_string())
+
 # Save the cleaned dataset
 pos_reports.to_csv("../data/processed/ais_type123_clean.csv", index=False)
 print(f"\nSaved {len(pos_reports)} clean position reports to data/processed/ais_type123_clean.csv")
