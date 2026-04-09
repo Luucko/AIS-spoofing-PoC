@@ -31,7 +31,7 @@
 | Metric | Value |
 |--------|-------|
 | Records removed by cleaning | 247259 (27.6%) |
-| Vessels removed by cleaning | 979 |
+| Vessels removed by cleaning | 979 (26.3%) |
 | Stationary vessels (SOG=0) | 397266 (61.3%) |
 | Nav status 0 (under way) | 376372 (58.1%) |
 | Nav status 5 (moored) | 157716 (24.3%) |
